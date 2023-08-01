@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="f5a1c41c-1427-4826-8a42-1331f8cd9904" >
+		<file:connection workingDir="C:\file" />
+	</file:config>
+	<os:object-store name="Object_store" doc:name="Object store" doc:id="40a8302d-a26d-4460-8415-b7d6dd71544d" />
+	<file:config name="File_Config1" doc:name="File Config" doc:id="860e921d-f434-4df2-9982-23a11f5c038c" >
+		<file:connection workingDir="C:\git-mule" />
+	</file:config>
+<!-- [STUDIO:"implementationFlow"]	<flow name="implementationFlow" doc:id="1a51de7e-49cc-414c-91a8-98ba654ca49c" >
+		<ee:transform doc:name="Transform Message" doc:id="b930464d-b630-4296-9085-bb7bff589235" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="input" ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+[]]]></ee:set-variable>
+				<ee:set-variable variableName="failed" ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+[]]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<foreach doc:name="For Each" doc:id="a0ae2717-e2fb-46fe-915a-eafbcc5ade3c">
+			<ee:transform doc:name="Transform Message" doc:id="5baafe11-9339-4cd1-af61-8db8c79ba612">
+			<ee:message>
+					<ee:set-payload ><![CDATA[output application/json
+&#45;&#45;-
+ (if(payload.department contains ("ECE")) payload
+else if (payload.department contains ("CSE")) payload
+else if (payload.department contains ("MECH")) payload
+else  "there is no department"
+)
+
+//%dw 2.0
+//output application/json
+//var d = payload distinctBy ((item, index) -> item.department)
+//var  c = d.department
+//&#45;&#45;-
+//payload filter (c contains  $.department)
+]]></ee:set-payload>
+			</ee:message>
+				<ee:variables >
+				</ee:variables>
+		</ee:transform>
+			<flow-ref doc:name="implementationFlow1" doc:id="d2bf5ffd-fe96-48d0-933e-bdf90905c3e2" name="implementationFlow1" target="theResult" targetValue="#[[payload]]"/>
+			<choice doc:name="Choice" doc:id="3d06f59b-006a-4d6f-bde1-06f6a92803c1" >
+				<when expression="#[payload.subjects.physics &gt; 40 and payload.subjects.maths &gt; 40 and payload.subjects.english &gt; 40 and payload.subjects.science &gt; 40 and payload.subjects.social &gt; 40 and payload.subjects.telugu &gt; 40]">
+					<ee:transform doc:name="Transform Message" doc:id="79e0918a-a290-4a47-b90f-49132447cf91" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+vars.theResult map ($ ++ {"total_marks": $.subjects.telugu + $.subjects.maths + $.subjects.english+ $.subjects.social + $.subjects.science + $.subjects.physics})]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+					<ee:transform doc:name="Transform Message" doc:id="b72e2a58-3e0b-4187-ac45-7360631bc52a" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+payload map ($ ++ {"avg": $.total_marks /6 as String ,
+	"result": "pass"
+	}
+)
+]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+					<ee:transform doc:name="Transform Message" doc:id="8035eca4-9994-49fd-8dff-d5dd788468b4" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="input" ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+vars."input" ++ payload]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</when>
+				<otherwise >
+					<ee:transform doc:name="Transform Message" doc:id="80fb4f69-76af-4141-b839-8d5310ea80e1" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+vars.theResult map{
+	"id": $.id,
+	"name": $.name,
+	"gender": $.gender,
+	"physics": $.subjects.physics as String,
+	"maths": $.subjects.maths  as String,
+	"english": $.subjects.english  as String,
+	"science": $.subjects.science  as String,
+	"social": $.subjects.social  as String,
+	"telugu": $.subjects.telugu as String,
+	"department": $.department,
+	"result": "fail"
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+					<ee:transform doc:name="Transform Message" doc:id="c36b9f61-5d9c-46ed-8938-914ae1f277b0">
+						<ee:message>
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+&#45;&#45;-
+ payload map  {"id": $.id,
+  "name": $.name,
+  "gender": $.gender,
+  "failedSubjects":{
+  "physics": if ($.physics < "40" or $.physics == "NA") $.physics else null,
+  "maths": if ($.maths < "40" or $.maths == "NA") $.maths else null,
+  "english": if ($.english < "40" or $.english == "NA") $.english else null,
+  "science": if ($.science < "40" or $.science == "NA") $.science else null,
+  "social": if ($.social < "40" or $.social == "NA") $.social else null,
+  "telugu": if ($.telugu < "40" or $.telugu == "NA") $.telugu else null
+  },
+  "department": $.department,
+  "result": "failed"
+  }]]></ee:set-payload>
+						</ee:message>
+						<ee:variables >
+						</ee:variables>
+					</ee:transform>
+					<ee:transform doc:name="Transform Message" doc:id="801ce841-1ae6-4837-83d1-56fda27efd19" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="failed" ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+vars.failed ++ payload]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</otherwise>
+
+			</choice>
+		</foreach>
+		<ee:transform doc:name="Transform Message" doc:id="2d23250b-7078-4f0c-9357-3bef825f50db">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+{
+	"passedStudentsDetails": vars."input",
+	"failedStudentsDetails": vars.failed
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		<file:write doc:name="Write" doc:id="7674192c-dc18-4714-8996-083473bce46d" config-ref="File_Config1" path='#["ReportCard" ++ ".json"]'>
+			<file:content ><![CDATA[#[output application/json
+&#45;&#45;-
+(vars."input" orderBy $.total_marks)[0 to -1]]]]></file:content>
+		</file:write>
+		<foreach doc:name="For Each" doc:id="b3f427ed-1bef-4f58-9af8-70cda793a0bb" collection='#[vars."input"]'>
+			<os:store doc:name="Store" doc:id="9128043f-65f7-4dbe-87c5-0c6cf4044727" key='#[payload.id]' objectStore="Object_store">
+			<os:value><![CDATA[#[output application/json
+&#45;&#45;-
+payload]]]></os:value>
+		</os:store>
+		</foreach>
+	</flow> [STUDIO] -->
+<!-- [STUDIO:"implementationFlow1"]	<flow name="implementationFlow1" doc:id="d1eed935-8137-476a-b482-e7a3c99c60bb" >
+		<file:write doc:name="Write" doc:id="589bda63-2635-430a-97d3-cb82c5437aa7" config-ref="File_Config" path='#[payload.department ++ ".json"]' mode="APPEND">
+			<file:content ><![CDATA[#[output application/json
+&#45;&#45;-
+payload]]]></file:content>
+		</file:write>
+	</flow> [STUDIO] -->
+	<flow name="student-marksFlow3" doc:id="673478db-46f2-4a71-b6a2-7c6602b42e3f" >
+		<os:retrieve doc:name="Retrieve" doc:id="2caa8062-7875-4a17-b9af-26bdcb0c8176" key="#[vars.id]" objectStore="Object_store">
+			<os:default-value ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+	"response": "there is no details depending up on that student id"
+}]]]></os:default-value>
+		</os:retrieve>
+		<error-handler>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="6b9a85c8-f602-4d2d-a63a-753ab7edcc17">
+				<ee:transform doc:name="Transform Message" doc:id="3b396641-2afd-4c25-930e-2ab3cfd7d23d">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"response": "there is no details depending up on that student id"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="6a32a16b-e6d9-4a52-b7a2-f28aa2e263b6" message="#[payload]" />
+			</on-error-propagate>
+		</error-handler>
+<!-- [STUDIO:"filtering-the-perticular-student-who-are-passed-in-the-all-sujects"]		<ee:transform doc:name="filtering-the-perticular-student-who-are-passed-in-the-all-sujects" doc:id="5d7424f7-22ce-4d00-a9ed-c97cde44a5e5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+-&#45;&#45;
+payload filter (vars.id contains $.id )]]></ee:set-payload>
+			</ee:message>
+			<ee:variables />
+		</ee:transform>
+		<choice doc:name="Choice" doc:id="f590a8a0-04dc-499b-94d0-f9f2577ebddb" >
+			<when expression="#[!isEmpty(payload)]" >
+				<ee:transform doc:name="payload" doc:id="e4aa65d9-91ba-4f4b-9e3c-b49f562e1ecb" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+-&#45;&#45;
+payload]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="4d823e5e-43ed-4628-8530-b13312aa137f" message="#[payload]" />
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="6335d021-2d5b-4bd8-b1de-a4197c511613" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+-&#45;&#45;
+{
+	"response": "there is no details depending up on that student id"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="5b82aaf6-5dde-4bfb-9e52-981612b24af5" message="#[payload]" />
+			</otherwise>
+		</choice>
+	</flow>
+	<flow name="implementationFlow2" doc:id="d855d031-643e-4d8c-9446-52f79338700d" >
+		<ee:transform doc:name="Transform Message" doc:id="bfe71213-19a5-40eb-b557-ca9cff7a5eb7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+-&#45;&#45;
+payload groupBy (n, idx) -> n.department]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
+--></flow>
+<!-- [STUDIO:"implementationFlow2"]	<flow name="implementationFlow2" doc:id="3eda03af-540d-4aab-8c59-1d8ff1f8ff39" >
+		<ee:transform doc:name="var[successRecords] var[failedRecords] vars [groupBy]" doc:id="04274b66-d5e0-43ce-a30f-36e96ae491f2">
+			<ee:message>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="groupBy" ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+payload groupBy (n, idx) -> n.department]]></ee:set-variable>
+				<ee:set-variable variableName="failureRecords" ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+payload filter ((($.subjects.telugu  < "40") or ($.subjects.telugu == "NA") or $.subjects.maths < "40" or $.subjects.english < "40" or $.subjects.social < "40" or $.subjects.science < "40" or $.subjects.physics < "40")
+ )]]></ee:set-variable>
+				<ee:set-variable variableName="successRecords" ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+payload filter ((($.subjects.telugu  > "40") and ($.subjects.telugu != "NA") and $.subjects.maths > "40" and $.subjects.english > "40" and $.subjects.social > "40" and $.subjects.science > "40" and $.subjects.physics > "40")
+ )]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="a521130e-0f6a-4702-9aa4-7247180efa5e">
+			<ee:message>
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+vars.groupBy pluck (value,key)  -> {
+		Key: key	
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="failureRecords"><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+vars.failureRecords map{
+	"id": $.id,
+	"name": $.name,
+	"gender": $.gender,
+	"physics": $.subjects.physics as String,
+	"maths": $.subjects.maths  as String,
+	"english": $.subjects.english  as String,
+	"science": $.subjects.science  as String,
+	"social": $.subjects.social  as String,
+	"telugu": $.subjects.telugu as String,
+	"department": $.department,
+	"result": "fail"
+}]]></ee:set-variable>
+				<ee:set-variable variableName="successRecords"><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+vars.successRecords map ($ ++ {"total_marks": $.subjects.telugu + $.subjects.maths + $.subjects.english+ $.subjects.social + $.subjects.science + $.subjects.physics ,
+"avg": $.subjects.telugu + $.subjects.maths + $.subjects.english+ $.subjects.social + $.subjects.science + $.subjects.physics / 6 as String {format: ".0#"},
+"result": "pass"
+})
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="implementationFlow3" doc:id="f819d951-f278-4352-b468-875a25a51ac2" name="implementationFlow3"/>
+		<ee:transform doc:name="Transform Message" doc:id="119ca01f-e427-453a-9fbe-fdf8542589a8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+&#45;&#45;-
+ {
+ "successStudentsRecords": vars.successRecords,
+ "failedStudentsRecords": vars.failureRecords map  {"id": $.id,
+  "name": $.name,
+  "gender": $.gender,
+  "failedSubjects":{
+  "physics": if ($.physics < "40" or $.physics == "NA") $.physics else null,
+  "maths": if ($.maths < "40" or $.maths == "NA") $.maths else null,
+  "english": if ($.english < "40" or $.english == "NA") $.english else null,
+  "science": if ($.science < "40" or $.science == "NA") $.science else null,
+  "social": if ($.social < "40" or $.social == "NA") $.social else null,
+  "telugu": if ($.telugu < "40" or $.telugu == "NA") $.telugu else null
+  },
+  "department": $.department,
+  "result": "failed"}
+  }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="Write" doc:id="7eaad97e-ad68-43a4-a590-eb2b4ebec5c7" config-ref="File_Config" path='#["ReportCard" ++ ".json"]' >
+			<file:content ><![CDATA[#[output application/json
+&#45;&#45;-
+(vars.successRecords orderBy $.total_marks)[0 to -1]]]]></file:content>
+		</file:write>
+		<foreach doc:name="For Each" doc:id="3243f5e9-71ef-496d-993b-d7844d144308" collection='#[vars.successRecords]' >
+			<os:store doc:name="Store" doc:id="6f1b4134-4c4a-4291-8012-499898ad2e54" key="#[payload.id]" objectStore="Object_store" >
+				<os:value ><![CDATA[#[output application/json
+&#45;&#45;-
+payload]]]></os:value>
+			</os:store>
+		</foreach>
+	</flow> [STUDIO] -->
+<!-- [STUDIO:"implementationFlow3"]	<flow name="implementationFlow3" doc:id="b68787c8-a58a-47fd-864c-c6db5405b477">
+		<foreach doc:name="For Each" doc:id="5c27141b-a1fd-48fe-8f46-1a99d0152647" collection="#[(vars.groupBy pluck ((value, key, index) -&gt; (key) : value) )]">
+			<ee:transform doc:name="Transform Message" doc:id="f49be2d5-2061-43cd-a72d-1a4bd9162409">
+				<ee:message>
+				</ee:message>
+				<ee:variables>
+					<ee:set-variable variableName="departments" ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+vars.groupBy filterObject( payload contains  $$)]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<file:write doc:name="Write" doc:id="bea20eb1-0c7b-404a-b6b4-696aec6204fa" config-ref="File_Config" path='#[payload ++ ".json"]' mode="APPEND">
+				<file:content><![CDATA[#[output application/json
+&#45;&#45;-
+vars.departments]]]></file:content>
+			</file:write>
+		</foreach>
+	</flow> [STUDIO] -->
+	<flow name="implementationFlow" doc:id="61a5af30-3eca-46d7-b170-8da8d0a48576" >
+		<ee:transform doc:name="var[successRecords] var[failedRecords] vars [groupBy]" doc:id="d422d7b1-56a5-4c6c-9690-371b72877d9a" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="groupBy" ><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy (n, idx) -> n.department]]></ee:set-variable>
+				<ee:set-variable variableName="failureRecords" ><![CDATA[
+%dw 2.0
+output application/json skipNullOn = "everywhere"
+var a = payload map {
+	"id": $.id,
+	"name": $.name,
+	"gender": $.gender,
+	"department": $.department,
+	"total_Marks": (sum(valuesOf($.subjects filterObject ($ == "NA" or  $ < 40)) -"NA")),
+	"failed_Subjects": $.subjects filterObject   ($ == "NA" or  $ < 40),
+	"result": p('failedResult')
+}
+---
+a]]></ee:set-variable>
+				<ee:set-variable variableName="successRecords" ><![CDATA[output application/json
+---
+payload filter ($.subjects.telugu  > "40" and $.subjects.maths > "40" and $.subjects.english > "40" and $.subjects.social > "40" and $.subjects.science > "40" and $.subjects.physics > "40")]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="implementationFlow1" doc:id="858bff3f-f3cb-4ca5-b868-f862d5ababd6" name="implementationFlow1" />
+		<ee:transform doc:name="Transform Message1" doc:id="53fa0782-7ff9-4bde-9a6b-7c34040b5492" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[output application/json skipNullOn = "everywhere"
+var successRecord= vars.successRecords map ($ ++ {
+	"total_marks": $.subjects.telugu + $.subjects.maths + $.subjects.english + $.subjects.social + $.subjects.science + $.subjects.physics
+})
+---
+{
+	"successStudentsRecords": successRecord map ($ ++ {
+		"avg": $.total_marks /6 as String {
+			format : ".0#"
+		},
+		"result": p('passedResult'),
+		"failedSubjects": p('failedDetails')
+	}),
+		"failedStudentsRecords": vars.failureRecords filter  ($.failed_Subjects != {	} or $.total_Marks > 0 ),
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name='"ReportCard.json"' doc:id="4c1a9f35-bcfe-4884-9fe6-eb47c260a08d" config-ref="File_Config" path="#[p('ReportCard')]" >
+			<file:content ><![CDATA[#[output application/json
+---
+(payload.successStudentsRecords orderBy $.total_marks)[0 to -1]]]]></file:content>
+		</file:write>
+		<foreach doc:name="For Each" doc:id="371c1d91-958b-428e-a511-2f951c7ab43a" collection="#[payload.successStudentsRecords]" >
+			<os:store doc:name="Store" doc:id="8e6de6fb-9b35-450f-8bd8-65785e42985d" key="#[payload.id]" objectStore="Object_store" >
+				<os:value ><![CDATA[#[output application/json
+---
+payload]]]></os:value>
+			</os:store>
+		</foreach>
+	</flow>
+	<flow name="implementationFlow1" doc:id="8f0c58b9-382e-4858-b517-fd30e5d68181" >
+		<foreach doc:name="For Each" doc:id="3a6b612f-8752-4c8e-99ba-6a778635b9b2" collection="#[keysOf(vars.groupBy)]" >
+			<file:write doc:name="Write" doc:id="d0685bcf-f557-4f82-909b-36a9de1db042" config-ref="File_Config" path='#[payload ++ ".json"]' mode="APPEND" >
+				<file:content ><![CDATA[#[%dw 2.0
+output application/json
+---
+vars.groupBy filterObject( payload contains  $$)]]]></file:content>
+			</file:write>
+		</foreach>
+	</flow>
+
+</mule>
+

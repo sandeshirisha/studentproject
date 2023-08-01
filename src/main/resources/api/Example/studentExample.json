@@ -1,0 +1,16 @@
+[
+  {
+    "id": "120",
+    "name": "arun",
+    "gender": "Male",
+    "department": "ECE",
+    "subjects": {
+      "physics": 88,
+      "maths": 87,
+      "english": 78,
+      "science": 100,
+      "social": 99,
+      "telugu": 59
+    }
+  }
+]

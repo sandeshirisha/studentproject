@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<configuration doc:name="Configuration" doc:id="d3eacacd-cfce-4002-ba9e-708d9cab0d85" defaultErrorHandler-ref="global-error-handler" />
+	<error-handler name="global-error-handler" doc:id="ae093645-4a60-4cbd-97cd-f868d1c82a1d" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4883148b-e0ce-4ade-86b6-20dbf9c9fc60" type="HTTP:BAD_REQUEST" >
+			<ee:transform doc:name="var [httpStatus--400]  var [message]" doc:id="1bd644f7-2a16-4b5a-8421-abb0b7d9d3e5" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Bad Request"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="60f629e6-46e7-45ff-b6df-a097f8fe370b" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate1" doc:id="3ef0cc62-b233-4f7e-b3e2-8435e01c06f7" type="HTTP:CLIENT_SECURITY" >
+			<ee:transform doc:name="var [httpStatus--401]  var [message]" doc:id="5ad41477-e374-4600-9dec-0314577664c3" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[401]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Unauthorized"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="183dfe47-367c-4c41-a1fc-8b8f354fd434" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate2" doc:id="57ea4384-6f68-4cfc-8c85-cbbf63404016" type="HTTP:CONNECTIVITY" >
+			<ee:transform doc:name="var [httpStatus--503]  var [message]" doc:id="8dd85842-3333-45ef-b4d3-b72f8db84750" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[503]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Service Unavailable"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="06dc073c-e7d7-4bce-8da0-b6d28fe87623" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate3" doc:id="c0791619-bff1-4e53-b75e-ebe765e09f0c" type="HTTP:INTERNAL_SERVER_ERROR" >
+			<ee:transform doc:name="var [httpStatus--500]  var [message]" doc:id="0b3823d6-c176-4f3f-a5e3-a3ae36a0ee4e" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Internal Server Error"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="79146bbf-bb53-470b-a598-24c3589eda39" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate4" doc:id="51b547cc-b4dc-46a7-ab67-3c2583c3f969" type="HTTP:METHOD_NOT_ALLOWED" >
+			<ee:transform doc:name="var [httpStatus--405]  var [message]" doc:id="3922760f-4527-46d5-9c83-d5a4bb5762c4" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[405]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Method Not Allowed"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="4c3a04c1-e012-4d24-8804-47bcb79bb72d" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate5" doc:id="a28b1444-edff-4a45-997d-83b4767987ab" type="HTTP:NOT_ACCEPTABLE" >
+			<ee:transform doc:name="var [httpStatus--406]  var [message]" doc:id="fd882ea2-8979-4043-9cd4-fcc212a213ab" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[406]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Not Acceptable"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="683a9990-fcb2-4f29-90c8-5672d237ed33" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate6" doc:id="31fd4ac9-6483-4c1a-9bf9-327d423555f4" type="HTTP:NOT_FOUND" >
+			<ee:transform doc:name="var [httpStatus--404]  var [message]" doc:id="0d8031c4-dae3-4e4a-9693-97528492e239" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Not Found"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="e46d3c7f-7262-4438-9ec5-f94f9f5cf379" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate7" doc:id="d654d723-5d13-4e4b-9dc4-6f360fd0e5dc" type="HTTP:PARSING" >
+			<ee:transform doc:name="var [httpStatus--400]  var [message]" doc:id="23e9b6bd-8399-4b8a-bcdc-5576f830296c" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Bad Request"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="f6fb1f9b-a344-460b-9201-ae4498b06095" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate8" doc:id="c177b48b-d2a2-4690-a0ac-251e4ddfaad4" type="HTTP:RETRY_EXHAUSTED" >
+			<ee:transform doc:name="var [httpStatus--503]  var [message]" doc:id="f52433ac-c08c-4cea-a0f3-56eabe5d8d22" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[503]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Service Unavailable"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="6af08045-7450-43d4-862d-c521a5a8c59c" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate9" doc:id="373a507d-0e1d-4a0a-83ba-159b4a7bed77" type="HTTP:SECURITY" >
+			<ee:transform doc:name="var [httpStatus--401]  var [message]" doc:id="9245c9ce-b141-4e1f-9093-dc1be7b892db" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[401]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Unauthorized"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="ea999e60-4e86-4347-8dbc-9ad5af6da968" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate11" doc:id="98b4913c-5f82-425d-8050-732c001be79a" type="HTTP:TIMEOUT" >
+			<ee:transform doc:name="var [httpStatus--504]  var [message]" doc:id="0e8b150a-31d6-44e8-b1d3-0ca8fe2f426d" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[504]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Gateway Timeout"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="62bb4738-62a8-45fd-998f-705dd9b85763" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate12" doc:id="8405a4ae-3b23-4a68-8a0f-00aa220df719" type="HTTP:TOO_MANY_REQUESTS" >
+			<ee:transform doc:name="var [httpStatus--429]  var [message]" doc:id="8d9edfa1-acc0-4439-90c1-3076740f55c9" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[429]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Too Many Requests"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="3e725fdf-07d4-43a5-82d6-d11b1664f0b2" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate13" doc:id="84dcb4b9-5d6f-4bc3-9927-2c1be59e150d" type="HTTP:UNAUTHORIZED" >
+			<ee:transform doc:name="var [httpStatus--401]  var [message]" doc:id="22ef4300-0f81-4ac6-89dd-27cc581ab79b" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[401]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Unauthorised"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="bcb4e4ea-e156-4b91-97bb-7f55097c200c" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate14" doc:id="bfd95bf3-70af-46cd-8c88-55160715c6ae" type="HTTP:UNSUPPORTED_MEDIA_TYPE" >
+			<ee:transform doc:name="var [httpStatus--415]  var [message]" doc:id="c1024fb2-b1c9-4e0f-9aa8-30955b172258" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[415]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Unsupported Media Type"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="b48bcf76-b96b-4ed0-892e-57742fa2bf70" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate15" doc:id="b548a6d8-80bb-463e-a04a-4e7ae4833c43" type="HTTP:BAD_GATEWAY" >
+			<ee:transform doc:name="var [httpStatus--502]  var [message]" doc:id="0e51f4dc-d425-4894-953f-080d6c0588b7" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[502]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Bad Gateway"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="98155347-831f-4bd1-83e8-aee7cf8a9e73" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate110" doc:id="bf769a69-ed89-49c4-82c2-869d6c45c973" type="HTTP:FORBIDDEN" >
+			<ee:transform doc:name="var [httpStatus--403]  var [message]" doc:id="9703bc1a-be1e-4ad0-9512-96837ccda53d" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[403]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Forbidden"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="9577f793-ab0c-461a-a09a-8c469010cff6" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Continue4" doc:id="883add9a-0fbd-422b-9b21-02a86ecf80b3" type="EXPRESSION" >
+			<ee:transform doc:name="var [httpStatus--500]  var [message]" doc:id="6837c2b8-e8c8-4692-86cc-67ee701a8d21" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Internal Server Error"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="fa996fac-bd50-4c9e-88b9-40139fb436ef" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Continue7" doc:id="33d855e7-7978-44e0-b5c6-9cd1a7df7aa3" type="ANY" >
+			<ee:transform doc:name="var [httpStatus--500]  var [message]" doc:id="de1fabd8-dc25-4dbd-9c8d-0070a175d1ed" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Internal Server Error"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="4b904e91-691c-4d90-8b9d-4ce42f0d3592" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Continue9" doc:id="62231193-efd5-43ca-9cca-0db5bfa512ff" type="TRANSFORMATION" >
+			<ee:transform doc:name="var [httpStatus--400]  var [message]" doc:id="dee7ad10-7da6-482e-af3c-5cba2b3dab22" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+					<ee:set-variable variableName="message" ><![CDATA["Bad Request"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="global-prepare-error-response-sub-flow" doc:id="b3c082d6-f1f7-4311-8590-43c07541b2e3" name="global-prepare-error-response-sub-flow" />
+		</on-error-propagate>
+	</error-handler>
+	<sub-flow name="global-prepare-error-response-sub-flow" doc:id="545cc1f7-d024-43b1-8ab9-78c3b93da741" >
+		<ee:transform doc:name="Error Response" doc:id="6e6aad97-3b97-41da-b813-7e6ef4c46522" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json encoding="UTF-8", skipNullOn="everywhere"
+---
+{
+	code : vars.httpStatus,
+	message: vars.message,
+	errorType : error.errorType.asString,
+	description: error.description,
+	dateTime : now() as String { format: "yyyy-MM-dd'T'HH:mm:ss'Z'" },
+	correlationId: correlationId
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

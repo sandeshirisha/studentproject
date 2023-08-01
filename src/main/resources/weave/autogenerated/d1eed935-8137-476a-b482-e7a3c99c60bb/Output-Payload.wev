@@ -1,0 +1,19 @@
+%dw 2.0
+
+type auto_d1eed935_8137_476a_b482_e7a3c99c60bb_Output_Payload = {
+  "id?"?: Number, 
+  "gender?"?: String, 
+  "department?"?: String, 
+  subjects?: {
+    "physics?"?: Number, 
+    "telugu?"?: Number, 
+    "science?"?: Number, 
+    "english?"?: Number, 
+    "social?"?: Number, 
+    "maths?"?: Number, 
+    _?: Any
+  }, 
+  "name?"?: String, 
+  _?: Any
+} | String
+

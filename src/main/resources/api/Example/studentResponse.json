@@ -1,0 +1,19 @@
+[
+    {
+        "id": "120",
+        "name": "arun",
+        "gender": "Male",
+        "subjects": {
+            "physics": 88,
+            "maths": 87,
+            "english": 78,
+            "science": 80,
+            "social": 99,
+            "telugu": 59
+        },
+        "department": "ECE",
+        "total_marks": 491,
+        "avg": 81.83333333333333333333333333333333,
+        "result": "pass"
+    }
+]

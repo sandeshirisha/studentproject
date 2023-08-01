@@ -1,0 +1,63 @@
+#%RAML 1.0 DataType
+type: array
+items:
+  type: object
+  properties:
+    id:  
+      type: string
+      required: false
+      example: "10"
+    name: 
+      type: string
+      required: false
+      example: shirisha
+    gender: 
+      type: string
+      required: false
+      example: male
+    department:
+      type: string
+      required: false
+      example: "ECE"
+    total_marks:
+      type: number
+      required: false
+      example: 491
+    avg:
+      type: number
+      required: false
+      example: 60.84
+    result:
+      type: string
+      required: false
+      example: "pass"
+    subjects:
+        type: object
+        properties:
+          physics:
+            type: number
+            required: false
+            example: 10 
+          maths: 
+            type: number
+            required: false
+            example: 10
+          english: 
+            type: number
+            required: false
+            example: 10
+          science: 
+            type: number
+            required: false
+            example: 10
+          social: 
+            type: number
+            required: false
+            example: 10
+          telugu:
+            type: number
+            required: false
+            example: 10 
+        
+
+     

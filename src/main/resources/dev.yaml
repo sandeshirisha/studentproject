@@ -1,0 +1,7 @@
+passedResult: "pass"
+failedResult: "fail"
+failedDetails: "there is no failed subjects"
+ReportCard: "ReportCard.json"
+http:
+  port: "8081"
+  path: "/api/*"

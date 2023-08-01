@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_8f0c58b9_382e_4858_b517_fd30e5d68181_Input_Variables_successRecords = Any
+

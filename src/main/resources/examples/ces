@@ -1,0 +1,30 @@
+[
+  {
+    "id": "120",
+    "name": "arun",
+    "gender": "Male",
+    "subjects": {
+      "physics": 88,
+      "maths": 87,
+      "english": 78,
+      "science": 80,
+      "social": 99,
+      "telugu": 59
+    },
+    "department": "ECE"
+  },
+  {
+    "id": "192",
+    "name": "moorthy",
+    "gender": "Male",
+    "subjects": {
+      "physics": 88,
+      "maths": 87,
+      "english": 78,
+      "science": 90,
+      "social": 66,
+      "telugu": 90
+    },
+    "department": "MECH"
+  }
+]

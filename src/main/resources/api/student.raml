@@ -1,0 +1,37 @@
+#%RAML 1.0
+title: student
+
+/student:
+  post:
+    body:
+      application/json:
+        type: !include DataType/student.raml
+        example: !include Example/studentExample.json
+    responses:
+      200:
+        body:
+          application/json:
+            type: !include DataType/common.raml
+            example: !include Example/commonExample.json 
+      400:
+        body:
+          application/json:
+            example: !include Example/badRequest.json
+      500:
+        body:
+          application/json:
+            example: !include Example/serverError.json
+
+  /{id}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: !include DataType/studentResponse.raml
+              example: !include Example/studentResponse.json
+          
+          
+
+              
+           

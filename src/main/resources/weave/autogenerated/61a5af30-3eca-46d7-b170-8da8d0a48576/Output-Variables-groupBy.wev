@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_61a5af30_3eca_46d7_b170_8da8d0a48576_Output_Variables_groupBy = Any
+

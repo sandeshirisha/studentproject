@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_61a5af30_3eca_46d7_b170_8da8d0a48576_Input_Payload = Array<{  "id?"?: Number,   "gender?"?: String,   "department?"?: String,   subjects?: {    "physics?"?: Number,     "telugu?"?: Number,     "science?"?: Number,     "english?"?: Number,     "social?"?: Number,     "maths?"?: Number,     _?: Any  },   "name?"?: String,   _?: Any}>
+
